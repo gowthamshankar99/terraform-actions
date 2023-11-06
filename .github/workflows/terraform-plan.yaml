@@ -216,7 +216,7 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: install terraform workflow packages
-        uses:  ThoughtWorks-DPS/terraform-action/packages@main
+        uses:  gowthamshankar99/terraform-actions/packages@main
         with:
           working-directory: ${{ inputs.working-directory }}
           cosign-version: ${{ inputs.cosign-version }}
@@ -253,7 +253,7 @@ jobs:
         run: terraform validate
 
       - name: optional tflint scan of terraform source files
-        uses:  ThoughtWorks-DPS/terraform-action/tflint@main
+        uses:  gowthamshankar99/terraform-actions/tflint@main
         with:
           working-directory: ${{ inputs.working-directory }}
           tflint-version: ${{ inputs.tflint-version }}
@@ -262,21 +262,21 @@ jobs:
           tflint-additional-args: ${{ inputs.tflint-additional-args }}
 
       - name: optional tfsec scan of terraform source files
-        uses:  ThoughtWorks-DPS/terraform-action/tfsec@main
+        uses:  gowthamshankar99/terraform-actions/tfsec@main
         with:
           working-directory: ${{ inputs.working-directory }}
           tfsec-version: ${{ inputs.tfsec-version }}
           tfsec-additional-args: ${{ inputs.tfsec-additional-args }}
 
       - name: optional checkov scan of terraform source files
-        uses:  ThoughtWorks-DPS/terraform-action/checkov@main
+        uses:  gowthamshankar99/terraform-actions/checkov@main
         with:
           working-directory: ${{ inputs.working-directory }}
           checkov-version: ${{ inputs.checkov-version }}
           checkov-additional-args: ${{ inputs.checkov-additional-args }}
 
       - name: optional snyk scan of terraform source files
-        uses:  ThoughtWorks-DPS/terraform-action/snyk@main
+        uses:  gowthamshankar99/terraform-actions/snyk@main
         with:
           working-directory: ${{ inputs.working-directory }}
           snyk-version: ${{ inputs.snyk-version }}
@@ -285,7 +285,7 @@ jobs:
           snyk-additional-args: ${{ inputs.snyk-additional-args }}
 
       - name: optional terrascan scan of terraform source files
-        uses:  ThoughtWorks-DPS/terraform-action/terrascan@main
+        uses:  gowthamshankar99/terraform-actions/terrascan@main
         with:
           working-directory: ${{ inputs.working-directory }}
           terrascan-version: ${{ inputs.terrascan-version }}
@@ -294,14 +294,14 @@ jobs:
           terrascan-policy-type: ${{ inputs.terrascan-policy-type }}
 
       - name: optional driftctl assessment
-        uses:  ThoughtWorks-DPS/terraform-action/driftctl@main
+        uses:  gowthamshankar99/terraform-actions/driftctl@main
         with:
           working-directory: ${{ inputs.working-directory }}
           driftctl-version: ${{ inputs.driftctl-version }}
           driftctl-additional-args: ${{ inputs.driftctl-additional-args }}
 
       - name: optional trivy scan
-        uses:  ThoughtWorks-DPS/terraform-action/trivy@main
+        uses:  gowthamshankar99/terraform-actions/trivy@main
         with:
           working-directory: ${{ inputs.working-directory }}
           trivy-version: ${{ inputs.trivy-version }}
