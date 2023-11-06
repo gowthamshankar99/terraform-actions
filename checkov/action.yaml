@@ -1,0 +1,48 @@
+# yamllint disable rule:line-length
+---
+name: checkov
+
+description: Run checkov scan in working-directory.
+
+inputs:
+
+  working-directory:
+    description: Set working directory. Default is ./.
+    required: false
+    default: "."
+
+  checkov-version:
+    description: |
+      Specify checkov version to perform scan. Set version "installed" to
+      perform scan with the version already installed on the Runner.
+    required: false
+    default: ""
+
+  terraform-plan-outfile:
+    description: Provide name of terraform plan output file for targeted scan.
+    required: false
+    default: ""
+
+  checkov-additional-args:
+    description: Set specific commandline arguments. Default is "-d .".
+    required: false
+    default: "-d ."
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: checkov scan of terraform files
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+      run: |
+        #!/usr/bin/env bash
+        if [[ "${{ inputs.checkov-version }}" != "" ]]; then
+          echo "Perform checkov scan"
+          checkov --version
+          if [[ "${{ inputs.terraform-plan-outfile }}" != "" ]]; then
+            checkov -f ${{ inputs.terraform-plan-outfile }} ${{ inputs.checkov-additional-args }}
+          else
+            checkov ${{ inputs.checkov-additional-args }}
+          fi
+        fi

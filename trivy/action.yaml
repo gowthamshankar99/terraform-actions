@@ -1,0 +1,39 @@
+# yamllint disable rule:line-length
+---
+name: trivy
+
+description: Run trivy scan in working-director. Default commandline args = config . --exit-code 1
+
+inputs:
+
+  working-directory:
+    description: specific folder in which to run the commands
+    required: false
+    default: "."
+
+  trivy-version:
+    description: |
+      Perform trivy scan of terraform files. Specify version "installed" to use
+      the version already installed on the executor.
+    required: false
+    default: ""
+
+  trivy-commandline-args:
+    description: Provide additional trivy commandline arguments.
+    required: false
+    default: "config . --exit-code 1"
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: trivy scan of terraform files
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+      run: |
+        #!/usr/bin/env bash
+        if [[ "${{ inputs.trivy-version }}" != "" ]]; then
+          echo "Perform trivy scan"
+          trivy --version
+          trivy ${{ inputs.trivy-commandline-args }}
+        fi

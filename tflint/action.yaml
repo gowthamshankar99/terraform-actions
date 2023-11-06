@@ -1,0 +1,71 @@
+# yamllint disable rule:line-length
+---
+name: tflint
+
+description: |
+  Run terraform-linters/tflint in working-directory.
+
+  Overrides available:
+  - generates a .tflint.hcl config file to support the tflint-provider specified.
+  - You can fully manage configuration by maintaining .tflint.hcl in your repo.
+  - if you include a .tflint.hcl file, you must specify a provider.
+
+inputs:
+
+  working-directory:
+    description: Set working directory. Default is ./.
+    required: false
+    default: "."
+
+  tflint-version:
+    description: |
+      Specify tflint version to perform scan. Set version "installed" to
+      perform scan with the version already installed on the Runner.
+    required: false
+    default: ""
+
+  tflint-provider:
+    description: Cloud provider. aws, google, or azurerm.
+    required: false
+    default: ""
+
+  tflint-provider-version:
+    description: Provider plugin version.
+    required: false
+    default: ""
+
+  tflint-additional-args:
+    description: |
+      Include any additional tflint commandline arguments. Note: not all
+      options can be successfully used in a pipeline.
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: tflint scan of terraform files
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+      run: |
+        #!/usr/bin/env bash
+
+        install_provider_plugin() {
+          cat <<- EOD > .tflint.hcl
+          plugin "${{ inputs.tflint-provider }}" {
+            enabled = true
+            version = "${{ inputs.tflint-provider-version }}"
+            source = "github.com/terraform-linters/tflint-ruleset-${{ inputs.tflint-provider }}"
+          }
+        EOD
+        }
+        if [[ "${{ inputs.tflint-version }}" != "" ]]; then
+          echo "Perform tflint scan"
+          install_provider_plugin
+          tflint --version
+          cat .tflint.hcl
+          tflint --init
+          tflint ${{ inputs.tflint-additional-args }}
+        fi
+        
