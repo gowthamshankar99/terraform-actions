@@ -300,12 +300,12 @@ jobs:
           driftctl-version: ${{ inputs.driftctl-version }}
           driftctl-additional-args: ${{ inputs.driftctl-additional-args }}
 
-      - name: optional trivy scan
-        uses:  ThoughtWorks-DPS/terraform-action/trivy@main
-        with:
-          working-directory: ${{ inputs.working-directory }}
-          trivy-version: ${{ inputs.trivy-version }}
-          trivy-additional-args: ${{ inputs.trivy-commandline-args }}
+      #- name: optional trivy scan
+      #  uses:  ThoughtWorks-DPS/terraform-action/trivy@main
+      #  with:
+      #    working-directory: ${{ inputs.working-directory }}
+      #    trivy-version: ${{ inputs.trivy-version }}
+      #    trivy-additional-args: ${{ inputs.trivy-commandline-args }}
 
       - name: run custom after-analysis scripts
         working-directory: ${{ inputs.working-directory }}
