@@ -314,9 +314,10 @@ jobs:
 
       # echo "action_state=yellow" >> "$GITHUB_ENV"
 
-      - name: terraform init
+      - name: terraform init with plan
         working-directory: ${{ inputs.working-directory }}
         run: |
+          terraform init 
           terraform plan -out tfplan.json
 
       - name: output the plan 
