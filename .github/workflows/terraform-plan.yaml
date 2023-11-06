@@ -313,3 +313,13 @@ jobs:
         run: ${{ inputs.after-static-analysis }}
 
       # echo "action_state=yellow" >> "$GITHUB_ENV"
+
+      - name: terraform init
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          terraform plan -out tfplan.json
+
+      - name: output the plan 
+        working-directory: ${{ inputs.working-directory }}
+        run: | 
+          cat tfplan.json
