@@ -316,8 +316,10 @@ jobs:
 
       - name: terraform init with plan
         working-directory: ${{ inputs.working-directory }}
+        shell: bash
         run: |
-          terraform init 
+          terraform version
+          terraform init ${{ inputs.terraform-init-additional-args }}  
           terraform plan -out tfplan.json
 
       - name: output the plan 
